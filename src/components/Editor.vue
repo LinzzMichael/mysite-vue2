@@ -4,7 +4,7 @@
 <!--            编辑器导航栏目-->
             <el-row :gutter="5" >
                 <el-col :lg="2" :sm="4" :xs="5" style="margin-top:10px; text-align: left">
-                    <a href="#" style="text-decoration: none">
+                    <a href="/index" style="text-decoration: none">
                         &lt; 返回博客页
                     </a>
                 </el-col>
@@ -197,7 +197,10 @@
 
             }
         },
-        methods: {
+      mounted() {
+          this.loadTags()
+      },
+      methods: {
             // 将图片上传到服务器，返回地址替换到md中
             $imgAdd(pos, $file){
                 let formdata = new FormData();
@@ -304,6 +307,21 @@
                 }
                 this.columnInputVisible = false;
                 this.columnInputValue = '';
+            },
+          //从后台获取存在的标签
+            loadTags() {
+              // var _this = this
+              this.$axios.get('/tags').then(resp => {
+                if(resp && resp.data.code === 200)
+                {
+                    var data = resp.data.result;
+                    for(var i=0; i<data.length; i++)
+                    {
+                      this.dynamicTags[i] = data[i].name
+                    }
+                    console.log(data);
+                }
+              })
             }
         },
     }

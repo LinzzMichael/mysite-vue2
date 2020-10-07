@@ -6,6 +6,7 @@ import Login from '@/components/Login'
 import Home from "@/components/Home";
 import Registe from "@/components/Registe";
 import Editor from "@/components/Editor";
+import Blog from "@/components/home/Blog"
 
 Vue.use(Router)
 
@@ -27,9 +28,19 @@ export default new Router({
                     meta: {
                         requireAuth: true,
                     }
-                }
+                },
+                {
+                    path: '/blog/getBlog',
+                    name: 'Blog',
+                    component: Blog,
+                    meta: {
+                        requireAuth: true,
+                    }
+                },
+
             ]
         },
+
         // 下面都是固定的写法
         {
             path: '/login',
