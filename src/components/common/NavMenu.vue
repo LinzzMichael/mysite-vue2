@@ -21,10 +21,10 @@
                 <el-submenu index="3">
                     <template slot="title">相册</template>
                     <el-menu-item index="#">相册中心</el-menu-item>
-                    <el-menu-item index="#">创建相册</el-menu-item>
+                    <el-menu-item index="#1">创建相册</el-menu-item>
                 </el-submenu>
 
-                <el-menu-item  style="float:right;" v-if="!isLogin()">
+                <el-menu-item  style="float:right;" v-if="!isLogin()" index="4">
                     <a href="#"  class="el-icon-s-custom" title="登录"></a>
                     <a href="/login" >登录/注册</a>
 
@@ -43,11 +43,11 @@
 <!--                    </el-submenu>-->
 <!--                </el-submenu>-->
 
-                <el-submenu style="float:right;" v-if="isLogin()">
+                <el-submenu style="float:right;" v-if="isLogin()" index="5">
 
                     <template slot="title">{{ username }}</template>
-                    <el-menu-item class="userSubMenu">个人中心</el-menu-item>
-                    <el-menu-item class="userSubMenu" v-on:click="loginOut">注销</el-menu-item>
+                    <el-menu-item class="userSubMenu" index="5-1">个人中心</el-menu-item>
+                    <el-menu-item class="userSubMenu" v-on:click="loginOut" index="5-2">注销</el-menu-item>
 <!--                    <el-menu-item index="2-3">选项3</el-menu-item>-->
                 </el-submenu>
 

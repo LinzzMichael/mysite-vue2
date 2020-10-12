@@ -2,12 +2,9 @@
  <div>
   <el-main style="padding: 0">
    <div class="block" >
-<!--       -->
 <!--       走马灯-->
-<!--    <span class="demonstration">默认 Hover 指示器触发</span>-->
     <el-carousel :height="bannerHeight + 'px'" style="margin-bottom: 100px">
      <el-carousel-item v-for="img in imgs" >
-<!--      <h3 class="small">{{ item }}</h3>-->
          <img
          :src="img.url"
          ref="bannerHeight"
@@ -18,29 +15,21 @@
     </el-carousel>
 
     <el-row class="main_contain " style="padding-left: 10px; padding-right: 10px; ">
-<!--        <el-col span="12" class="textLeft"><h2>最新推荐</h2></el-col>-->
-<!--        <el-col class="textRight" span="12" style="height: 100%"><a href="#" >查看所有文章</a></el-col>-->
-<!--        <a href="#" style="float: right;align-content: center">查看所有文章</a>-->
         <h2 class="textLeft">最新推荐</h2>
         <a href="#" style="float: right; margin-top: -45px;text-decoration:none;color: #f33f3f">查看所有文章></a>
 
         <el-divider></el-divider>
     </el-row>
 
-<!--       <el-row class="main_contain "><el-divider ></el-divider></el-row>-->
 
 
     <!--       推荐栏目-->
     <el-row class="main_contain" :gutter="20">
-    <!--    <el-col :span="2"><div class="grid-content"></div></el-col>-->
-    <!--    <el-col :span="20">-->
+
             <el-col :span="8" :xs="24">
                 <el-card :body-style="{ padding: '0px' }" shadow="hover">
                     <img src="../../assets/imgs/timg.jpeg" class="image">
                     <div class="card_text_div">
-<!--                        <a href="blog/getBlog/">-->
-<!--                            <h4>致橡树</h4>-->
-<!--                        </a>-->
                         <router-link :to="{path:'blog/getBlog/', query:{id:19}}">
                           <h4>致橡树</h4>
                         </router-link>
@@ -49,7 +38,7 @@
                             “橡树”的形象象征着刚硬的男性之美,而有着“红硕的花朵”的木棉显然体现着具有新的审美气质的女性人格...
                         </p>
                         <el-rate
-                                value=5
+                                :value=5
                                 disabled
                                 text-color="#ff9900"
                                 score-template="{value}">
@@ -57,7 +46,6 @@
                     </div>
                 </el-card>
             </el-col>
-    <!--        <el-col :span="1"><div class="grid-content"></div></el-col>-->
             <el-col :span="8" :xs="24">
                 <el-card :body-style="{ padding: '0px' }" shadow="hover">
                     <img src="../../assets/imgs/summer.jpeg" class="image">
@@ -78,7 +66,6 @@
                     </div>
                 </el-card>
             </el-col>
-    <!--        <el-col :span="1"><div class="grid-content"></div></el-col>-->
             <el-col :span="8" :xs="24">
                 <el-card :body-style="{ padding: '0px' }" shadow="hover">
                     <img src="../../assets/imgs/test.png" class="image">
@@ -91,7 +78,7 @@
                             和你在一起的时候，我偶尔会沮丧，但从不孤单，他和她，相同点和不同点总是冲突式地呈现，...
                         </p>
                         <el-rate
-                                value=5
+                                :value=5
                                 disabled
                                 text-color="#ff9900"
                                 score-template="{value}">
@@ -99,67 +86,64 @@
                     </div>
                 </el-card>
             </el-col>
-    <!--    </el-col>-->
-    <!--    <el-col :span="2"><div class="grid-content"></div></el-col>-->
+
     </el-row>
 
 
-
+<!--最近文章-->
      <el-row class="main_contain " style="padding-left: 10px; padding-right: 10px; ">
-       <!--        <el-col span="12" class="textLeft"><h2>最新推荐</h2></el-col>-->
-       <!--        <el-col class="textRight" span="12" style="height: 100%"><a href="#" >查看所有文章</a></el-col>-->
-       <!--        <a href="#" style="float: right;align-content: center">查看所有文章</a>-->
        <h2 class="textLeft">最近文章</h2>
-<!--       <a href="#" style="float: right; margin-top: -45px;text-decoration:none;color: #f33f3f">查看所有文章></a>-->
-
        <el-divider></el-divider>
      </el-row>
-     <div v-for="n in 4">
+     <div v-for="(blog, index) in blogList">
        <el-row class="main_contain" style="padding-left: 10px; padding-right: 10px;margin-bottom: 0;">
          <el-row >
            <el-col :span="16" class="textLeft" >
              <el-row  style="margin: 0px; height: 50px">
-               <el-link :underline="false">
-                 <h3 class="textLeft" style="">测试标题</h3>
-               </el-link>
+               <router-link :to="{path:'blog/getBlog/', query:{id: blog.id}}">
+                 <el-link  :underline="false">
+                   <h3 class="textLeft" style="">{{ blog.title }}</h3>
+                 </el-link>
+               </router-link>
+
              </el-row>
              <el-row style="margin: 0px">
-               <p class="textLeft">测试内容测试内容测试内容测试内容测试内容测试内容测试内容测试内容测试内容测试内容测试内容测试内容测试内容测试内容测试内容
-                 测试内容测试内容测试内容测试内容测试内容测试内容测试内容测试内容测试内容测试内容测试内容测试内容测试内容测试内容测试内容</p>
+               <p class="textLeft">{{ blog.introduction }}</p>
              </el-row>
              <el-row style="margin: 0px">
                <el-col :xs="8" :sm="8" :md="8" :lg="4" :xl="1"  class="textLeft">
-                 <el-button :circle="true" size="mini" class="el-icon-star-off"></el-button>
-                 x 6 · 赞
+                 <el-button :circle="true" size="mini"" ><li class="el-icon-star-off" ></li></el-button>
+                 x {{ blog.likeCount }} · <span v-if="!isLikeList[index]">赞</span><span v-else>已赞</span>
                </el-col>
 
                <el-col :xs="8" :sm="8" :md="6" :lg="4" :xl="1" class="textLeft">
-                 <el-button :circle="true" size="mini" class="el-icon-view
-"></el-button>
-                 x 6 · 阅读
+                 <el-button :circle="true" size="mini" class="el-icon-view" ></el-button>
+                 x {{ blog.views }} · 阅读
                </el-col>
                <el-col :xs="8" :sm="8" :md="6" :lg="4" :xl="1" class="textLeft">
-                 <el-button :circle="true" size="mini" class="el-icon-s-comment
-"></el-button>
-                 x 6 · 评论
+                 <el-button :circle="true" size="mini" class="el-icon-s-comment"></el-button>
+                 x {{ blog.commentCount }} · 评论
                </el-col>
              </el-row>
            </el-col>
+<!--           文章内容和图片中间的留白-->
            <el-col :span="1">
              <p></p>
            </el-col>
+<!--           文章的封面图片-->
            <el-col :span="5">
-             <el-image style="width: 250px; height: 150px" src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg">
+             <el-image style="width: 250px; height: 150px" :src="blog.cover">
                <div slot="placeholder" class="image-slot">
                  加载中<span class="dot">...</span>
                </div>
              </el-image>
            </el-col>
+<!--           每个文章的标签显示-->
            <el-col :span="2">
-             <div v-for="tag in 3" style="padding: 10px 0 15px 0">
-               <el-link type="primary">
+             <div v-for="tag in tagList[index]" style="padding: 10px 0 15px 30px" class="textLeft">
+               <el-link type="primary" >
                  <span class="el-icon-collection-tag"></span>
-                 标签1
+                 {{ tag.name }}
                </el-link>
              </div>
            </el-col>
@@ -167,6 +151,17 @@
          <el-divider style="margin: 5px"></el-divider>
        </el-row>
 
+     </div>
+     <div class="block">
+       <!--分页部件-->
+       <el-pagination
+           layout="prev, pager, next"
+           @current-change="handleCurrentChange"
+           :total="totalBlogs"
+           :current-page="this.curPage"
+           :pageSize="pageSize"
+       >
+       </el-pagination>
      </div>
 
 
@@ -198,7 +193,7 @@
                </div>
            </el-col>
            <el-col :span="12">
-                <el-image :fit="scale-down" :src="bookImageUrl">
+                <el-image fit="scale-down" :src="bookImageUrl">
 
                 </el-image>
            </el-col>
@@ -230,8 +225,15 @@
                     {url: require("../../assets/imgs/test2.jpg"),link:'#'},
                     {url: require("../../assets/imgs/test2.jpg"),link:'#'}
                 ],
+                blogs:[],
                 bookImageUrl: require("../../assets/imgs/book.jpeg"),
-                currentDate: new Date()
+                currentDate: new Date(),
+                blogList: [],
+                tagList: [],
+                isLikeList: [],
+                totalBlogs: 0,
+                pageSize: 3,
+                curPage:1,
             }
         },
         methods:{
@@ -239,9 +241,32 @@
             imgLoad () {
                 this.$nextTick(() => {
                     this.bannerHeight = this.$refs.bannerHeight[0].height
-                    console.log(this.$refs)
+                    // console.log(this.$refs)
                 })
-            }
+            },
+            loadRecentBlog (page, size){
+              page=page-1
+              var username = this.$store.state.user.username
+              this.$axios.get('/blog/list/'+page+'/'+size+'/'+username).then(resp => {
+                if(resp && resp.data.code === 200)
+                {
+                  //这里很关键，因为每次点击不同的页数，需要显示不同页面的内容，如果直接用this.blogList=resp.data.result.blogList
+                  //虽然会替换blogList的内容，但是却不会触发v-for重新渲染，所以要使用concat，这会触发重新渲染，但是这是拼接，需要先清空
+                  this.blogList = []
+                  this.blogList = this.blogList.concat(resp.data.result.blogList)
+                  this.tagList = resp.data.result.tagList
+                  this.totalBlogs = resp.data.result.total
+                  this.isLikeList = resp.data.result.isLikeList
+                  console.log(resp.data.result)
+                }
+              })
+              console.log(this.$store.state.user)
+          },
+          //处理页数变化的函数，el-page会自动传当前页数进来
+          handleCurrentChange(val) {
+              this.curPage = val
+            this.loadRecentBlog(this.curPage, this.pageSize)
+          }
         },
         // 下面是增加监听事件，当视口发生变化的时候，得到此时图片的高度赋值给 bannerHeight
         mounted () {
@@ -250,6 +275,8 @@
                 this.bannerHeight = this.$refs.bannerHeight[0].height
                 this.imgLoad()
             }, false)
+            this.loadRecentBlog(this.curPage, this.pageSize)
+
         }
     }
 </script>
@@ -259,6 +286,7 @@
     .el-row {
         margin-bottom: 20px;
         margin-top:20px;
+
     &:last-child {
          margin-bottom: 0;
      }
@@ -350,6 +378,12 @@
         margin: 0;
         font-size: 16px;
         color: #121212;
+    }
+    .router-link-active {
+      text-decoration: none;
+    }
+    a {
+      text-decoration: none;
     }
 
 </style>

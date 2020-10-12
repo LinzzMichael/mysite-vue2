@@ -120,8 +120,6 @@
                 // this.submitStatus = 'ERROR'
             } else
             {
-                // var _this = this
-                // console.log(this.$store.state)
                 //axios用于反向代理，全部请求都会在/api下,具体地址配置见main.js
                 this.$axios
                     .post('/registe', {

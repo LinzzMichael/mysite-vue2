@@ -13,14 +13,12 @@
           </div>
         </el-col>
       </el-row>
+      <el-row class="main_contain" style="padding-left: 10px; padding-right: 10px;margin-top: 50px">
+        <el-divider></el-divider>
+      </el-row>
 
-<!--        <el-col :span="2">-->
-
-<!--        </el-col>-->
-
-<!--      </el-card>-->
     </el-main>
-
+    <el-footer>COPYRIGHT © 2020 Ineffable world CO., LTD. - DESIGN: Lin</el-footer>
   </div>
 
 
@@ -40,7 +38,7 @@ export default {
   },
   data() {
     return{
-      blog: []
+      blog: [],
     }
   },
   methods:{

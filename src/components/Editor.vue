@@ -12,7 +12,7 @@
                 <el-col :lg="17" :sm="13" :xs="8">
                     <el-input
                             placeholder="在此输入你的标题"
-                            v-model="title"
+                            v-model="blog.title"
                     ></el-input>
                 </el-col>
 <!--                保存按钮-->
@@ -36,7 +36,7 @@
             </el-row>
 <!--            编辑器-->
             <el-row>
-                <mavon-editor v-model="content" ref="md" @change="change" @imgAdd="$imgAdd" style="min-height: 1000px; height:100%">
+                <mavon-editor v-model="blog.content" ref="md" @change="change" @imgAdd="$imgAdd" style="min-height: 1000px; height:100%">
 
                 </mavon-editor>
             </el-row>
@@ -52,15 +52,6 @@
                             文章标签:
                         </el-col>
                         <el-col :span="20">
-<!--                            <el-tag-->
-<!--                                    :key="tag"-->
-<!--                                    v-for="tag in dynamicTags"-->
-<!--                                    closable-->
-<!--                                    :disable-transitions="false"-->
-<!--                                    @close="handleTagClose(tag)">-->
-<!--                                {{tag}}-->
-<!--                            </el-tag>-->
-<!--                            标签输入-->
                             <el-input
                                     class="input-new-tag"
                                     v-if="tagInputVisible"
@@ -80,7 +71,7 @@
                         </el-col>
                         <el-col :span="20">
                             <el-card class="columnCard" shadow="never" >
-                                <el-checkbox-group v-model="tagCheckList" :max="2">
+                                <el-checkbox-group v-model="tagCheckList" :max="3">
                                     <span v-for="tag in dynamicTags" :key="tag" class="tagSpan">
                                         <el-checkbox :label="tag"></el-checkbox>
                                     </span>
@@ -91,49 +82,80 @@
                         </el-col>
                     </el-row>
 
+
 <!--                    栏目-->
-                    <el-row type="flex" align="middle" class="form-entry">
-                        <el-col :span="4" >
-                            文章栏目：
-                        </el-col>
-                        <el-col :span="20">
-<!--                            <el-tag-->
-<!--                                    :key="col"-->
-<!--                                    v-for="col in dynamicColumns"-->
-<!--                                    closable-->
-<!--                                    :disable-transitions="false"-->
-<!--                                    @close="handleColumnClose(col)">-->
-<!--                                {{col}}-->
-<!--                            </el-tag>-->
-                            <el-input
-                                    class="input-new-tag"
-                                    v-if="columnInputVisible"
-                                    v-model="columnInputValue"
-                                    ref="saveColumnInput"
-                                    size="small"
-                                    @keyup.enter.native="handleColumnInputConfirm"
-                                    @blur="handleColumnInputConfirm"
-                            >
-                            </el-input>
-                            <el-button v-else class="button-new-tag" size="small" @click="showColumnInput">+ 新增栏目</el-button>
-                        </el-col>
-                    </el-row>
-                    <el-row type="flex" align="middle" class="form-entry">
-                        <el-col :span="4" class="grid-content">
+                  <el-row type="flex" align="middle" class="form-entry">
+                    <el-col :span="4" >
+                      文章栏目：
+                    </el-col>
+                    <el-col :span="20">
+                      <el-select style="margin: 0 10px;"
+                          v-model="blogColunm"
+                          filterable
+                          allow-create
+                          default-first-option
+                          placeholder="请选择文章栏目"
+                          size="medium">
+                        <el-option
+                            v-for="item in options"
+                            :key="item"
+                            :label="item"
+                            :value="item">
+                        </el-option>
+                      </el-select>
+                    </el-col>
+                  </el-row>
 
-                        </el-col>
-                        <el-col :span="20">
-                            <el-card class="columnCard" shadow="never" >
-                                <el-checkbox-group v-model="columnCheckList" :max="2">
-                                    <span v-for="col in dynamicColumns" :key="col" class="tagSpan">
-                                        <el-checkbox :label="col"></el-checkbox>
-                                    </span>
+                  <el-row type="flex" align="middle" class="form-entry">
+                    <el-col :span="4" class="grid-content">
+                      文章简介:
+                    </el-col>
+                    <el-col :span="20">
+                      <div style=" margin: 0 10px; border-style: solid;border-width: thin;">
+                        <el-input
+                            type="textarea"
+                            placeholder="请输入内容"
+                            v-model="blog.introduction"
+                            maxlength="200"
+                            minLength="100"
+                            show-word-limit
+                            rows="4"
+                        ></el-input>
+                      </div>
+                    </el-col>
+                  </el-row>
 
-                                </el-checkbox-group>
 
-                            </el-card>
+
+                  <!--                发布形式-->
+                  <el-row type="flex" align="middle" class="form-entry">
+                    <el-col :span="4">
+                      封面：
+                    </el-col>
+                    <el-col :span="20">
+                      <el-row style="margin: 0 10px">
+                        <el-col :span="21">
+                          <el-input placeholder="请选择封面图片" v-model="coverName" ></el-input>
                         </el-col>
-                    </el-row>
+                        <el-col :span="1">
+                          <el-upload
+                                     action="api/blog/uploadImg"
+                                     enctype="Content-Type': 'multipart/form-data"
+                                     :on-progress="uploadVideoProcess"
+                                     :on-change="uploadChang"
+                                     :on-success="uploadSuccess"
+                                     :limit="1"
+                                     :show-file-list="false"
+                                     :file-list="uploadCover">
+                            <el-button  icon="el-icon-folder" style="width: 100%"></el-button>
+                          </el-upload>
+                        </el-col>
+                        <!-- 进度条 -->
+                        <el-progress v-if="progressFlag" :percentage="loadProgress"></el-progress>
+                      </el-row>
+
+                    </el-col>
+                  </el-row>
 
 
                     <!--                发布形式-->
@@ -164,7 +186,6 @@
                 </el-row>
                 </span>
             </el-dialog>
-
         </el-main>
     </div>
 </template>
@@ -192,8 +213,22 @@
                 columnInputValue: '',
                 tagCheckList: [],  //已经选中的标签
                 columnCheckList: [],
-                columnList: ['测试1', '测试2', '测试3'], //显示的标签
-                permission: 3
+                columnList: [], //显示的标签
+                permission: 3,
+                options: ['html', 'C++', 'python'],
+                uploadCover: [],
+                coverName: '',
+                blogColunm: '',
+                blog: {
+                  title: '',
+                  html: '',
+                  content: '',
+                  introduction: '',
+                  cover: '',
+                  user: this.$store.state.user,
+                },
+              loadProgress: 0, // 动态显示进度条
+              progressFlag: false, // 关闭进度条
 
             }
         },
@@ -201,10 +236,30 @@
           this.loadTags()
       },
       methods: {
+            uploadVideoProcess(event, file, fileList) {
+              this.progressFlag = true; // 显示进度条
+              this.loadProgress = parseInt(event.percent); // 动态获取文件上传进度
+              if (this.loadProgress >= 100) {
+                this.loadProgress = 100
+                setTimeout( () => {this.progressFlag = false}, 1000) // 一秒后关闭进度条
+              }
+            },
+            uploadChang(file, filelist) {
+              // console.log(file)
+              // console.log(filelist)
+              // this.blog.cover = file.name
+              this.coverName = file.name
+            },
+            uploadSuccess(resp, file, fileList)
+            {
+              console.log(resp)
+              this.blog.cover = resp.result.url
+
+            },
             // 将图片上传到服务器，返回地址替换到md中
             $imgAdd(pos, $file){
                 let formdata = new FormData();
-                formdata.append('image', $file);
+                formdata.append('file', $file);
                 this.$axios({
                     url: 'blog/uploadImg',
                     method: 'post',
@@ -227,7 +282,7 @@
           //发布文章
           postBlog()
           {
-            if (this.title=="")
+            if (this.blog.title=="")
             {
               this.$message.warning("请输入标题！");
             }
@@ -242,19 +297,7 @@
             },
             // 提交编写的博客
             submit(){
-                var data={"blog":{title: this.title,
-                    html: this.html,
-                    content: this.content,
-                    user: this.$store.state.user}, "tagList": this.tagCheckList};
-                //data = JSON.stringify(data);
-              //   console.log(data);
-              //   this.$axios
-              //       .post('/blog/post', {
-              //     title: this.title,
-              //     html: this.html,
-              //     content: this.content,
-              //     user: this.$store.state.user
-              // })
+                var data={"blog": this.blog, "tagList": this.tagCheckList};
                 this.$axios({
                   method:"post",
                   url:"/blog/post",
@@ -319,7 +362,7 @@
                     {
                       this.dynamicTags[i] = data[i].name
                     }
-                    console.log(data);
+                    // console.log(data);
                 }
               })
             }
@@ -360,4 +403,5 @@
     .tagSpan{
         margin-right: 20px;
     }
+
 </style>
